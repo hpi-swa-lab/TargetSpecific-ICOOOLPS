@@ -170,9 +170,9 @@ The main contribution of this paper are \emph{call-target-specific method argume
 
 \section{Example: Ruby Keyword Arguments}
 \label{sec:kwargs}
-Keyword arguments (named arguments) in Ruby will serve as a running example in the remainder of this paper, but other constructs~\cite{Zdun05patternsof} such as variable-sized argument lists with a rest argument are amenable to our approach. \autoref{fig:ruby_kwargs} shows how keyword arguments work in Ruby 2.0. Keyword arguments are named arguments. The order in which they are passed in a method call does not matter. Excess keyword arguments are available as a dictionary (``hash'' in Ruby) in the target method's body (\lstinline{**kwargs} in \autoref{lst:kwargs}) or cause an argument error if no such \emph{rest keyword parameter} is defined in the method's signature.
-
-\begin{lstlisting}[basicstyle=\footnotesize\ttfamily,float=htbp,label=fig:ruby_kwargs,caption=Example usage of keyword arguments in Ruby.]
+\setlength{\belowcaptionskip}{-10pt}
+\begin{figure}[!bp] %,label=fig:ruby_kwargs,caption=Example usage of keyword arguments in Ruby.]
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily] 
 def A.foo(a:, b:)
    a + b
 end
@@ -188,6 +188,14 @@ end
 object.foo(a: 1, b: 2) `\label{lst:invocation}`
 object.foo({a: 1, b: 2})  `\label{lst:invocation2}`
 \end{lstlisting}
+\vspace{-0.25cm}
+\caption*{Listing 1: Example usage of keyword arguments in Ruby.}
+\end{figure}
+\setlength{\belowcaptionskip}{0pt}
+
+Keyword arguments (named arguments) in Ruby will serve as a running example in the remainder of this paper, but other constructs~\cite{Zdun05patternsof} such as variable-sized argument lists with a rest argument are amenable to our approach. The usage of keyword arguments is wide-spread in Ruby: for instance, libraries like \emph{ActiveRecord} typically pass optional \lstinline{options} arguments as keyword arguments. Ruby 2.0 introduced a more compact syntax for keyword arguments (Listing~1), in addition to the old syntax. 
+
+Keyword arguments are named arguments. The order in which they are passed in a method call does not matter. Excess keyword arguments are available as a dictionary (``hash'' in Ruby) in the target method's body (\lstinline{**kwargs} in \autoref{lst:kwargs}) or cause an argument error if no such \emph{rest keyword parameter} is defined in the method's signature.
 
 Whenever keyword arguments are passed at a call site, both MRI\footnote{MRI (Matz's Ruby Interpreter) is the Ruby reference implementation.} and JRuby store all keyword arguments in a dictionary and use that dictionary as the last argument. Whenever a keyword argument is present in a method's signature, the method checks if the last argument is a dictionary, extracts the corresponding keyword argument from the dictionary and stores it in a temporary variable.
 
@@ -233,7 +241,7 @@ In this section, we explain how our solution is different from existing programm
     \label{fig:pic_abstr}
 \end{figure}
 
-Although every call site along with its arguments is represented by a single statement in the source code (\eg \autoref{lst:invocation}, \autoref{fig:ruby_kwargs}), the execution environment might decide to pass different arguments for every polymorphic target type.
+Although every call site along with its arguments is represented by a single statement in the source code (\eg Listing~1, \autoref{lst:invocation}), the execution environment might decide to pass different arguments for every polymorphic target type.
 
 Polymorphic inline caches avoid unnecessary method lookups by caching call target methods for receiver types. Call-target-specific method arguments make argument handling more efficient by avoiding generic argument representations.
 
@@ -265,7 +273,7 @@ caches (\emph{type decision chains}) for a call site. Initially, for the
 The original JRuby implementation stores the array of AST nodes for method arguments in \lstinline{RubyCallNode}, which is specific to a certain call site. Our optimization stores method arguments in \lstinline{DispatchNode} which is specific to a certain call target. Upon creation of PIC entries, our implementation analyzes the target method and stores AST nodes in the array of arguments in such a way that the $i$\textsuperscript{th} argument in the method signature corresponds to the $i$\textsuperscript{th} argument in the array, making it easy to load arguments within the target method without having to extract arguments from a dictionary.
 
 \paragraph{Example}
-Consider the case that \autoref{lst:invocation} in \autoref{fig:ruby_kwargs} is executed multiple times, but \lstinline{object} alternates between instances of \lstinline{A}, \lstinline{B}, and \lstinline{C}. Our implementation generates three different argument arrays that are specific to one of the three \lstinline{foo} methods\footnote{For better readability, we use Ruby syntax. Since the arguments array is part of the AST, all objects should AST nodes (fixnum literal nodes, symbol literal nodes and hash literal nodes). Marker nodes are omitted.}.
+Consider the case that \autoref{lst:invocation} in Listing~1 is executed multiple times, but \lstinline{object} alternates between instances of \lstinline{A}, \lstinline{B}, and \lstinline{C}. Our implementation generates three different argument arrays that are specific to one of the three \lstinline{foo} methods\footnote{For better readability, we use Ruby syntax. Since the arguments array is part of the AST, all objects should be AST nodes (fixnum literal nodes, symbol literal nodes and hash literal nodes). Marker nodes are omitted.}.
 \begin{Compactitem}
        \item \lstinline|A.foo: [1, 2]|
        \item \lstinline|B.foo: [2, 1]|
@@ -273,7 +281,7 @@ Consider the case that \autoref{lst:invocation} in \autoref{fig:ruby_kwargs} is 
 \end{Compactitem}
 
 \paragraph{Pitfalls and Implementation Details}
-In Ruby, keyword arguments can be passed explicitly as named arguments (\autoref{fig:ruby_kwargs}, \autoref{lst:invocation}) and implicitly using an already existing dictionary object (\autoref{fig:ruby_kwargs}, \autoref{lst:invocation2}). The latter case cannot be optimized by expanding dictionaries. Therefore, the original implementation should stay in place for this case.
+In Ruby, keyword arguments can be passed explicitly as named arguments (Listing~1, \autoref{lst:invocation}) and implicitly using an already existing dictionary object (Listing~2, \autoref{lst:invocation2}). The latter case cannot be optimized by expanding dictionaries. Therefore, the original implementation should stay in place for this case.
 
 Target methods must be able to distinguish whether the arguments of the current invocation are optimized (expanded) or not. We use a special marker object (Figure~\ref{fig:rubyarr}) at the end of the arguments array to denote that a call is optimized and keyword arguments can be read from the array directly without looking them up in a dictionary.
 
@@ -285,9 +293,9 @@ Target methods must be able to distinguish whether the arguments of the current 
 
 %\subsection{Python Keyword Arguments}
 \subsection{Benchmarks}
-To evaluate our optimization for keyword arguments with call-target-specific method arguments, we ran benchmarks\footnote{\mbox{\url{https://github.com/HPI-SWA-Lab/TargetSpecific-ICOOOLPS}}.} on our optimized JRuby implementation with Truffle on an ordinary HotSpot VM (no Graal). The benchmarks were run on a MacBook Pro with an i7-2720QM CPU and 16~GB RAM.
+We ran benchmarks\footnote{\mbox{\url{https://github.com/HPI-SWA-Lab/TargetSpecific-ICOOOLPS}}.} on our optimized JRuby implementation with Truffle on an ordinary HotSpot VM (no Graal). The benchmarks were run on a MacBook Pro with an i7-2720QM CPU and 16~GB RAM.
 
-For every benchmark, we compare two implementations: the original, unoptimized implementation of JRuby (\emph{call-site-specific}); and the optimized call-target-specific implementation. In the latter case, a separate AST subtree is stored with every PIC entry\footnote{This is different from Truffle AST node rewriting because multiple AST subtrees can be stored for a call site at the same time.} (a AST subtree generating the array of arguments passed to the target method is stored for every PIC entry).
+For every benchmark, we compare two implementations: the original, unoptimized implementation of JRuby (\emph{call-site-specific}); and the optimized call-target-specific implementation. In the latter case, a separate AST subtree is stored with every PIC entry\footnote{This is different from Truffle AST node rewriting because multiple AST subtrees can be stored for a call site at the same time.} (an AST subtree generating the array of arguments passed to the target method is stored for every PIC entry).
 
 \begin{figure}
 \includegraphics[width=\linewidth]{resources/benchmark}
@@ -306,6 +314,8 @@ Named parameters are supported in a wide range of programming languages. However
 MagLev is an implementation of the Ruby programming language on top of the GemStone/S virtual machine (Smalltalk). For every Ruby method, MagLev generates a set of \emph{bridge methods} specific to a certain number of arguments and splat arguments. When calling a Ruby method, MagLev calls the corresponding bridge method which might provide default arguments and prepare a splat argument array, and calls the actual implementation. For example, if \lstinline{foo(a = 1, *args)} is called via \lstinline{foo(1, 2, 3)}, MagLev calls the bridge method \lstinline{foo#3__} specific to three arguments which wraps the last two arguments in an array and calls the actual implementation~\cite{SprBachelor}. If we extend this idea to keyword arguments, MagLev could also create bridge methods specific to keyword argument labels: whenever a method call with keyword arguments is compiled, MagLev could add a corresponding bridge method to all classes having a method with that name; \eg compiling \lstinline{foo(1, b: 2, a: 1)} could generate bridge methods \lstinline{foo#1__a_b} (one positional argument, keyword arguments \lstinline{a} and \lstinline{b}\footnote{Keyword arguments are sorted lexicographically.}). This would avoid creating and expanding dictionaries when using keyword arguments, but it could also increase the number of methods significantly.
 
 Gil and Lenza propose an extension of the Java programming language to support keyword arguments and optional arguments~\cite{JOT:issue_2012_04/article1}. Their implementation generates \emph{auxiliary methods} for all valid calling patterns, which is similar to MagLev's concept of bridge methods. Auxiliary methods provide missing arguments and call the actual implementation with the full set of arguments.
+
+In programming languages supporting multiple dispatch, the call target depends on all arguments (usually argument types) instead of just the receiver argument~\cite{multimethods}. Multiple dispatch is used to provide entirely different method implementations for different argument types. Call-target-specific method arguments are, however, an optimization \emph{under the hood}, and aim at making argument handling more efficient, instead of providing different semantics for different argument types.
 %TODO: https://www.cs.utah.edu/plt/publications/scheme09-fb.pdf
 
 \section{Conclusion}
