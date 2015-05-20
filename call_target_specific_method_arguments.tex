@@ -1,4 +1,4 @@
-\documentclass[10pt]{sigplanconf}
+\documentclass{sigplanconf} %[10pt]
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -28,7 +28,8 @@
     unit-optional-argument,
     parse-units = false,
   }
-\usepackage[scaled=0.9]{inconsolata}
+%\usepackage[scaled=0.9]{inconsolata}
+\usepackage[scaled=0.85]{beramono}
 \usepackage[final]{microtype}
 \microtypesetup{stretch=9,shrink=15,step=3,letterspace=50}
 % % Disable single lines at the start of a paragraph (Schusterjungen)
@@ -170,8 +171,9 @@ The main contribution of this paper are \emph{call-target-specific method argume
 
 \section{Example: Ruby Keyword Arguments}
 \label{sec:kwargs}
-\setlength{\belowcaptionskip}{-10pt}
-\begin{figure}[!bp] %,label=fig:ruby_kwargs,caption=Example usage of keyword arguments in Ruby.]
+Keyword arguments (named arguments) in Ruby will serve as a running example in the remainder of this paper, but other constructs~\cite{Zdun05patternsof} such as variable-sized argument lists with a rest argument are amenable to our approach. The usage of keyword arguments is wide-spread in Ruby: for instance, libraries like \emph{ActiveRecord} typically pass optional \lstinline{options} arguments as keyword arguments. Ruby 2.0 introduced a more compact syntax for keyword arguments (Listing~1), in addition to the old syntax. 
+
+\begin{figure}[!hbp] %,label=fig:ruby_kwargs,caption=Example usage of keyword arguments in Ruby.]
 \begin{lstlisting}[basicstyle=\footnotesize\ttfamily] 
 def A.foo(a:, b:)
    a + b
@@ -191,9 +193,6 @@ object.foo({a: 1, b: 2})  `\label{lst:invocation2}`
 \vspace{-0.25cm}
 \caption*{Listing 1: Example usage of keyword arguments in Ruby.}
 \end{figure}
-\setlength{\belowcaptionskip}{0pt}
-
-Keyword arguments (named arguments) in Ruby will serve as a running example in the remainder of this paper, but other constructs~\cite{Zdun05patternsof} such as variable-sized argument lists with a rest argument are amenable to our approach. The usage of keyword arguments is wide-spread in Ruby: for instance, libraries like \emph{ActiveRecord} typically pass optional \lstinline{options} arguments as keyword arguments. Ruby 2.0 introduced a more compact syntax for keyword arguments (Listing~1), in addition to the old syntax. 
 
 Keyword arguments are named arguments. The order in which they are passed in a method call does not matter. Excess keyword arguments are available as a dictionary (``hash'' in Ruby) in the target method's body (\lstinline{**kwargs} in \autoref{lst:kwargs}) or cause an argument error if no such \emph{rest keyword parameter} is defined in the method's signature.
 
