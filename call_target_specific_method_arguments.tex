@@ -165,9 +165,9 @@ Most efficient implementations of dynamically-typed programming languages use po
 PIC, Method Arguments, Named Arguments, JRuby %, Truffle
 
 \section{Introduction}
-Dynamically-typed object-oriented programming languages typically use polymorphic inline caches~\cite{Holzle:1991:ODO:646149.679193} during method dispatch to find the corresponding target method quickly: a small number of class types is stored along with method pointers at every call site. In some programming languages, however, different call targets that are cached by the same call site can require different arguments: Ruby keyword arguments will serve as a running example in this paper and are introduced in \autoref{sec:kwargs}. 
+Dynamically-typed object-oriented programming languages typically use polymorphic inline caches~\cite{Holzle:1991:ODO:646149.679193} during method dispatch to find the corresponding target method quickly: a small number of class types is stored along with method pointers at every call site. In some programming languages, however, different call targets that are cached by the same call site can require different arguments: Ruby keyword arguments will serve as a running example in this paper and are introduced in Section~\ref{sec:kwargs}. 
 
-The main contribution of this paper are \emph{call-target-specific method arguments}: instead of converting arguments into a call-site-specific format and sharing them among all call targets, our approach aims to make method arguments call-target-specific. Based on the polymorphic type of the receiver, the call site directly converts the arguments to the method-specific format.
+The main contribution of this paper are \emph{call-target-specific method arguments}: instead of converting arguments into a call-site-specific format and sharing them among all call targets, our approach aims to make method arguments call-target-specific. Based on the polymorphic type of the receiver, the call site directly converts the arguments to the method-specific format. Call-target-specific method arguments were designed for dynamically-typed programming languages; a different idea has been proposed and implemented for statically-typed programming languages and is presented briefly in Section~\ref{sec:related}.
 
 \section{Example: Ruby Keyword Arguments}
 \label{sec:kwargs}
@@ -225,7 +225,7 @@ In this section, we explain how our solution is different from existing programm
 %    \label{fig:pic_abstr}
 %\end{figure}
 
-\begin{figure}
+\begin{figure}[!htp]
         \centering
         \begin{subfigure}{.45\linewidth}
           \includegraphics[width=.9\linewidth]{resources/pic_regular}
@@ -284,11 +284,13 @@ In Ruby, keyword arguments can be passed explicitly as named arguments (Listing~
 
 Target methods must be able to distinguish whether the arguments of the current invocation are optimized (expanded) or not. We use a special marker object (Figure~\ref{fig:rubyarr}) at the end of the arguments array to denote that a call is optimized and keyword arguments can be read from the array directly without looking them up in a dictionary.
 
-\begin{figure}
+\begin{figure}[!htp]
 \includegraphics[width=\linewidth]{resources/rubyargs}
 \caption{Ruby arguments array during method dispatch in JRuby.}
 \label{fig:rubyarr}
 \end{figure}
+
+Since we might rearrange AST nodes in the arguments array, the evaluation order of arguments might have changed. We solve this problem by evaluating arguments in their original order, storing their values into newly-created temporary variables, and passing AST nodes reading the temporary variables, possibly in a different order.
 
 %\subsection{Python Keyword Arguments}
 \subsection{Benchmarks}
@@ -296,21 +298,22 @@ We ran benchmarks\footnote{\mbox{\url{https://github.com/HPI-SWA-Lab/TargetSpeci
 
 For every benchmark, we compare two implementations: the original, unoptimized implementation of JRuby (\emph{call-site-specific}); and the optimized call-target-specific implementation. In the latter case, a separate AST subtree is stored with every PIC entry\footnote{This is different from Truffle AST node rewriting because multiple AST subtrees can be stored for a call site at the same time.} (an AST subtree generating the array of arguments passed to the target method is stored for every PIC entry).
 
-\begin{figure}
+\begin{figure}[!htp]
 \includegraphics[width=\linewidth]{resources/benchmark}
 \caption{Benchmark comparing call-site-specific and call-target-specific method invocation.}
 \label{fig:benchmark}
 \end{figure}
 
-We benchmarked calling a method on object \lstinline{obj} with 10 keyword arguments. In (a) and (d), \lstinline{obj} is always the same object, whereas in (b) and (c), \lstinline{obj} alternates between two objects, whose methods have a different signature. In (a) and (b), the target methods take 10 keyword arguments, whereas in (d), the target methods takes 5 keyword arguments and a rest keyword dictionary. In (c), one of the target methods takes 10 keyword arguments.
+We benchmarked calling a method on object \lstinline{obj} with 10 keyword arguments (Figure~\ref{fig:benchmark}). In (a) and (d), \lstinline{obj} is always the same object, whereas in (b) and (c), \lstinline{obj} alternates between two objects, whose methods have a different signature. In (a) and (b), the target methods take 10 keyword arguments, whereas in (d), the target methods takes 5 keyword arguments and a rest keyword dictionary. In (c), one of the target methods takes 10 keyword arguments.
 
 Reading a keyword argument from the rest keyword argument hash is slow. That is why (a) is fastest benchmark and (d) is the slowest benchmark.
 
 \section{Related Work}
-Named parameters are supported in a wide range of programming languages. However, only some of them support rest arguments. For example, Scala supports named arguments which can be optional (``implicit''). During method application, a collection consisting of all positional arguments followed by a fixed permutation of all named arguments defined in the signature is passed~\cite{Rytz:2010:NDA:1774088.1774529}. For every optional argument, there is a \emph{default method} returning the value of the optional argument. When a method is called with optional arguments missing, the compiler generates code that first calls the corresponding default methods and then passes their return values together with the provided arguments.
+\label{sec:related}
+Named parameters are supported in a wide range of programming languages. For example, Scala supports named arguments which can be optional (``implicit''). Since Scala is a statically-typed programming language, the polymorphic receiver type and, therefore, the target method's signature is known, because methods overridden in subclasses must have the same arguments as the base method. During method application, a collection consisting of all positional arguments followed by a fixed permutation of all named arguments defined in the signature is passed~\cite{Rytz:2010:NDA:1774088.1774529}. Scala evaluates arguments in their original order, stores them in temporary variables, and passes these variables in a permutated order, just as our implementation does. For every optional argument, there is a \emph{default method} (automatically generated in the receiver's class) returning the value of the optional argument. When a method is called with optional arguments missing, the compiler generates code that first calls the corresponding default methods and then passes their return values together with the provided arguments. This is an elegant approach to make argument handling efficient, however, it cannot be applied in dynamically-typed programming languages, because the receiver type of a method call is unknown before dispatching the method call; therefore, the execution environment cannot know if a default argument is missing before looking up the receiver type.
 
 %\lstset{language=Java}
-MagLev is an implementation of the Ruby programming language on top of the GemStone/S virtual machine (Smalltalk). For every Ruby method, MagLev generates a set of \emph{bridge methods} specific to a certain number of arguments and splat arguments. When calling a Ruby method, MagLev calls the corresponding bridge method which might provide default arguments and prepare a splat argument array, and calls the actual implementation. For example, if \lstinline{foo(a = 1, *args)} is called via \lstinline{foo(1, 2, 3)}, MagLev calls the bridge method \lstinline{foo#3__} specific to three arguments which wraps the last two arguments in an array and calls the actual implementation~\cite{SprBachelor}. If we extend this idea to keyword arguments, MagLev could also create bridge methods specific to keyword argument labels: whenever a method call with keyword arguments is compiled, MagLev could add a corresponding bridge method to all classes having a method with that name; \eg compiling \lstinline{foo(1, b: 2, a: 1)} could generate bridge methods \lstinline{foo#1__a_b} (one positional argument, keyword arguments \lstinline{a} and \lstinline{b}\footnote{Keyword arguments are sorted lexicographically.}). This would avoid creating and expanding dictionaries when using keyword arguments, but it could also increase the number of methods significantly.
+MagLev is an implementation of the Ruby programming language on top of the GemStone/S virtual machine (Smalltalk). For every Ruby method, MagLev generates a set of \emph{bridge methods} specific to a certain number of arguments and splat arguments. When calling a Ruby method, MagLev calls the corresponding bridge method which might provide default arguments and prepare a splat argument array, and calls the actual implementation. For example, if \lstinline{foo(a = 1, *args)} is called via \lstinline{foo(1, 2, 3)}, MagLev calls the bridge method \lstinline{foo#3__} specific to three arguments which wraps the last two arguments in an array and calls the actual implementation~\cite{SprBachelor}. If we extend this idea to keyword arguments, MagLev could also create bridge methods specific to keyword argument labels: whenever a method call with keyword arguments is compiled, MagLev could add a corresponding bridge method to all classes having a method with that name; \eg compiling \lstinline{foo(1, b: 2, a: 1)} could generate bridge methods \lstinline{foo#1__a_b} (one positional argument, keyword arguments \lstinline{a} and \lstinline{b}\footnote{Keyword arguments are sorted lexicographically.}). This would avoid creating and expanding dictionaries when using keyword arguments, but it could also increase the number of methods significantly: in contrast to making arguments call-target-specific, this approach would add call-site-specific wrapper methods.
 
 Gil and Lenza propose an extension of the Java programming language to support keyword arguments and optional arguments~\cite{JOT:issue_2012_04/article1}. Their implementation generates \emph{auxiliary methods} for all valid calling patterns, which is similar to MagLev's concept of bridge methods. Auxiliary methods provide missing arguments and call the actual implementation with the full set of arguments.
 
