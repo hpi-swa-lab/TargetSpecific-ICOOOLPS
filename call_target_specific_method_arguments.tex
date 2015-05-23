@@ -171,7 +171,7 @@ The main contribution of this paper are \emph{call-target-specific method argume
 
 \section{Example: Ruby Keyword Arguments}
 \label{sec:kwargs}
-Keyword arguments (named arguments) in Ruby will serve as a running example in the remainder of this paper, but other constructs~\cite{Zdun05patternsof} such as variable-sized argument lists with a rest argument are amenable to our approach. The usage of keyword arguments is wide-spread in Ruby: for instance, libraries like \emph{ActiveRecord} typically pass optional \lstinline{options} arguments as keyword arguments. Ruby 2.0 introduced a more compact syntax for keyword arguments (Listing~1), in addition to the old syntax. 
+Keyword arguments (named arguments) in Ruby will serve as a running example in the remainder of this paper, but other constructs~\cite{Zdun05patternsof} such as variable-sized argument lists with a rest argument are amenable to our approach. The usage of keyword arguments is wide-spread in Ruby: for instance, libraries like \emph{ActiveRecord} typically pass \lstinline{options} arguments as keyword arguments~\cite{Carlson:2015}. They are also useful for designing domain-specific languages~\cite{Gunther:2010:DPI:2493288.2493291}. Ruby 2.0 introduced a more compact syntax for keyword arguments (Listing~1), in addition to the old syntax. 
 
 \begin{figure}[!hbp] %,label=fig:ruby_kwargs,caption=Example usage of keyword arguments in Ruby.]
 \begin{lstlisting}[basicstyle=\footnotesize\ttfamily] 
@@ -382,7 +382,6 @@ obj.foo_d(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
 \end{lstlisting}
 \caption*{Listing 2: Simplified benchmarking code.}
 \end{figure}
-%\balance
 % You must have a proper ".bib" file
 %  and remember to run:
 % latex bibtex latex latex
