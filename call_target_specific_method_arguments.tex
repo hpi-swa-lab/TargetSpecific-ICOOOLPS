@@ -98,7 +98,7 @@ keywordstyle=[1]\color[rgb]{0,0,0.75},
 keywordstyle=[2]\color[rgb]{0.5,0.0,0.0},
 keywordstyle=[3]\color[rgb]{0.127,0.427,0.514},
 keywordstyle=[4]\color[rgb]{0.4,0.4,0.4},
-commentstyle=\color[rgb]{0,0,0},
+commentstyle=\color[rgb]{0.5,0.5,0.5},
 stringstyle=\color[rgb]{0.639,0.082,0.082},
 morekeywords={self, proceed},
 numbers=left,%
@@ -294,7 +294,7 @@ Since we might rearrange AST nodes in the arguments array, the evaluation order 
 
 %\subsection{Python Keyword Arguments}
 \subsection{Benchmarks}
-We ran benchmarks\footnote{\mbox{\url{https://github.com/HPI-SWA-Lab/TargetSpecific-ICOOOLPS}}.} on our optimized JRuby implementation with Truffle on an ordinary HotSpot VM (no Graal). The benchmarks were run on a MacBook Pro with an i7-2720QM CPU and 16~GB RAM.
+We ran benchmarks (see Appendix) on our optimized JRuby implementation with Truffle on an ordinary HotSpot VM (no Graal). The benchmarks were run on a MacBook Pro with an i7-2720QM CPU and 16~GB RAM. The benchmarking code and our implementation, along with an install script, is also available for download\footnote{\mbox{\url{https://github.com/HPI-SWA-Lab/TargetSpecific-ICOOOLPS}}.}.
 
 For every benchmark, we compare two implementations: the original, unoptimized implementation of JRuby (\emph{call-site-specific}); and the optimized call-target-specific implementation. In the latter case, a separate AST subtree is stored with every PIC entry\footnote{This is different from Truffle AST node rewriting because multiple AST subtrees can be stored for a call site at the same time.} (an AST subtree generating the array of arguments passed to the target method is stored for every PIC entry).
 
@@ -335,6 +335,53 @@ We would like to thank Chris Seaton for his support with our JRuby implementatio
 % produce the bibliography for the citations in your paper.
 \bibliographystyle{abbrvnat}
 \bibliography{call_target_specific_method_arguments}  % sigproc.bib is the name of the Bibliography in this case
+
+\appendix
+\section{Appendix}
+\begin{figure}[!htp]
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily] 
+class A
+  def foo_a(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
+    a + b + c + d + e + f + g + h + i + j
+  end
+
+  def foo_b(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
+    a + b + c + d + e + f + g + h + i + j
+  end
+
+  def foo_c(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
+    a + b + c + d + e + f + g + h + i + j
+  end
+end
+
+class B
+  def foo_b(j:11, i:12, h:13, g:14, f:15, e:16, d:17, c:18, b:19, a:20)
+    a + b + c + d + e + f + g + h + i + j
+  end
+
+  def foo_c(j:11, i:12, h:13, g:14, f:15, **kwargs)
+    kwargs[:a] + kwargs[:b] + kwargs[:c] + kwargs[:d] + kwargs[:e] + f + g + h + i + j
+  end
+
+  def foo_d(j:11, i:12, h:13, g:14, f:15, **kwargs)
+    kwargs[:a] + kwargs[:b] + kwargs[:c] + kwargs[:d] + kwargs[:e] + f + g + h + i + j
+  end
+end
+
+# Benchmark (a): one target A
+obj.foo_a(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
+
+# Benchmark (b): two targets A, B alternating
+obj.foo_b(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
+
+# Benchmark (c): two targets A, B alternating
+obj.foo_c(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
+
+# Benchmark (d): one target B
+obj.foo_d(a:1, b:2, c:3, d:4, e:5, f:6, g:7, h:8, i:9, j:10)
+\end{lstlisting}
+\caption*{Listing 2: Simplified benchmarking code.}
+\end{figure}
 %\balance
 % You must have a proper ".bib" file
 %  and remember to run:
