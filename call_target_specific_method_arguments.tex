@@ -98,7 +98,7 @@ keywordstyle=[1]\color[rgb]{0,0,0.75},
 keywordstyle=[2]\color[rgb]{0.5,0.0,0.0},
 keywordstyle=[3]\color[rgb]{0.127,0.427,0.514},
 keywordstyle=[4]\color[rgb]{0.4,0.4,0.4},
-commentstyle=\color[rgb]{0.5,0.5,0.5},
+commentstyle=\color[rgb]{0,0,0},
 stringstyle=\color[rgb]{0.639,0.082,0.082},
 morekeywords={self, proceed},
 numbers=left,%
@@ -142,7 +142,7 @@ escapechar=`,
 \maketitle
 
 \begin{abstract}
-Most efficient implementations of dynamically-typed programming languages use polymorphic inline caches to determine the target of polymorphic method calls, making method lookups more efficient. In some programming languages, parameters specified in method signatures can differ from arguments passed at call sites. However, arguments are typically specific to call sites, so they have to be converted in target methods. We propose call-target-specific method arguments for dynamically-typed languages, effectively making argument handling part of polymorphic inline cache entries. We implemented this concept in JRuby using the Truffle framework in order to make keyword arguments more efficient. Micro-benchmarks confirm that our implementation makes keyword argument passing in JRuby more than twice as fast.
+Most efficient implementations of dynamically-typed programming languages use polymorphic inline caches to determine the target of polymorphic method calls, making method lookups more efficient. In some programming languages, parameters specified in method signatures can differ from arguments passed at call sites. However, arguments are typically specific to call sites, so they have to be converted within target methods. We propose call-target-specific method arguments for dynamically-typed languages, effectively making argument handling part of polymorphic inline cache entries. We implemented this concept in JRuby using the Truffle framework in order to make keyword arguments more efficient. Micro-benchmarks confirm that our implementation makes keyword argument passing in JRuby more than twice as fast.
 \end{abstract}
 
 % A category with the (minimum) three required fields
@@ -234,7 +234,7 @@ In this section, we explain how our solution is different from existing programm
         \hfill
         \begin{subfigure}{.45\linewidth}
           \includegraphics[width=.9\linewidth]{resources/pic_calltarget}
-          \caption{Without call-target-specific arguments}
+          \caption{With call-target-specific arguments}
         \end{subfigure}
     \caption{Polymorphic inline cache for method dispatch.}
     \label{fig:pic_abstr}
@@ -337,7 +337,41 @@ We would like to thank Chris Seaton for his support with our JRuby implementatio
 \bibliography{call_target_specific_method_arguments}  % sigproc.bib is the name of the Bibliography in this case
 
 \appendix
-\section{Appendix}
+\section{Appendix} %from now on use gray comments
+\lstset{language=Ruby,
+% backgroundcolor=\color[rgb]{0.95, 0.95, 0.95},
+tabsize=2,
+rulecolor=,
+basicstyle=\ttfamily,
+upquote=true,
+% aboveskip={1.5\baselineskip},
+columns=fullflexible,
+% columns=fixed,
+showstringspaces=false,
+extendedchars=true,
+breaklines=true,
+prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+% frame=single,
+showtabs=false,
+showspaces=false,
+showstringspaces=false,
+% identifierstyle=\ttfamily,
+keywordstyle=\color[rgb]{1.0,0,0},
+keywordstyle=[1]\color[rgb]{0,0,0.75},
+keywordstyle=[2]\color[rgb]{0.5,0.0,0.0},
+keywordstyle=[3]\color[rgb]{0.127,0.427,0.514},
+keywordstyle=[4]\color[rgb]{0.4,0.4,0.4},
+commentstyle=\color[rgb]{0.5,0.5,0.5},
+stringstyle=\color[rgb]{0.639,0.082,0.082},
+morekeywords={self, proceed},
+numbers=left,%
+numbersep=5pt,%
+numberstyle=\tiny\color{gray},%
+emphstyle=\bfseries,%
+breaklines=true,
+breakatwhitespace=true,%
+escapechar=`,
+}
 \begin{figure}[!htp]
 \begin{lstlisting}[basicstyle=\footnotesize\ttfamily] 
 class A
