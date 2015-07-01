@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.1"
+   width="513.97607"
+   height="351"
+   id="svg12261">
+  <defs
+     id="defs12263">
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Lend"
+       style="overflow:visible">
+      <path
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(-0.8,0,0,-0.8,-10,0)"
+         id="path3806"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt" />
+    </marker>
+    <marker
+       refX="0"
+       refY="0"
+       orient="auto"
+       id="Arrow1Mend"
+       style="overflow:visible">
+      <path
+         d="M 0,0 5,-5 -12.5,0 5,5 0,0 z"
+         transform="matrix(-0.4,0,0,-0.4,-4,0)"
+         id="path3812"
+         style="fill-rule:evenodd;stroke:#000000;stroke-width:1pt" />
+    </marker>
+  </defs>
+  <metadata
+     id="metadata12266">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <text
+     x="86.313438"
+     y="20"
+     id="text12279"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="86.313438"
+       y="20"
+       id="tspan12285"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Schola;-inkscape-font-specification:TeX Gyre Schola">Lookup method</tspan></text>
+  <text
+     x="110.5"
+     y="90.5"
+     id="text12321"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="110.5"
+       y="90.5"
+       id="tspan12323"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">A.method</tspan></text>
+  <rect
+     width="170"
+     height="30"
+     x="0.5"
+     y="0.5"
+     id="rect12835"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+  <text
+     x="85.78344"
+     y="310.5"
+     id="text12837"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="85.78344"
+       y="310.5"
+       id="tspan12839"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Schola;-inkscape-font-specification:TeX Gyre Schola">Invoke method:</tspan></text>
+  <text
+     x="85.576103"
+     y="340.5"
+     id="text12841"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="85.576103"
+       y="340.5"
+       id="tspan12843"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">A.method</tspan></text>
+  <rect
+     width="170"
+     height="60"
+     x="0.5"
+     y="290.5"
+     id="rect12845"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+  <text
+     x="85.833435"
+     y="130.5"
+     id="text12857"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="85.833435"
+       y="130.5"
+       id="tspan12861"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Schola;-inkscape-font-specification:TeX Gyre Schola">Convert to spec.</tspan><tspan
+       x="85.833435"
+       y="155.5"
+       id="tspan12871"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Schola;-inkscape-font-specification:TeX Gyre Schola">representation:</tspan></text>
+  <rect
+     width="170"
+     height="130.5"
+     x="0.5"
+     y="110.5"
+     id="rect12867"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+  <path
+     d="m 40.5,250.5 0,30"
+     id="path12877"
+     style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+  <path
+     d="m 40.5,40.5 0,60"
+     id="path12879"
+     style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+  <text
+     x="85.786095"
+     y="181"
+     id="text13444"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="85.786095"
+       y="181"
+       id="tspan13446"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">b := 2</tspan><tspan
+       x="85.786095"
+       y="206"
+       id="tspan13448"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">c := (/)</tspan><tspan
+       x="85.786095"
+       y="231"
+       id="tspan13450"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">a := 1</tspan></text>
+  <text
+     x="320.5"
+     y="90.5"
+     id="text13545"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="320.5"
+       y="90.5"
+       id="tspan13547"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">B.method</tspan></text>
+  <text
+     x="295.78345"
+     y="310.5"
+     id="text13549"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="295.78345"
+       y="310.5"
+       id="tspan13551"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Schola;-inkscape-font-specification:TeX Gyre Schola">Invoke method:</tspan></text>
+  <text
+     x="295.57611"
+     y="340.5"
+     id="text13553"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="295.57611"
+       y="340.5"
+       id="tspan13555"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">B.method</tspan></text>
+  <rect
+     width="170"
+     height="60"
+     x="210.5"
+     y="290.5"
+     id="rect13557"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+  <text
+     x="295.83344"
+     y="130.5"
+     id="text13559"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="295.83344"
+       y="130.5"
+       id="tspan13561"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Schola;-inkscape-font-specification:TeX Gyre Schola">Convert to spec.</tspan><tspan
+       x="295.83344"
+       y="155.5"
+       id="tspan13563"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Schola;-inkscape-font-specification:TeX Gyre Schola">representation:</tspan></text>
+  <rect
+     width="170"
+     height="130.5"
+     x="210.5"
+     y="110.5"
+     id="rect13565"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0" />
+  <path
+     d="m 250.5,250.5 0,30"
+     id="path13567"
+     style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+  <text
+     x="295.7861"
+     y="181"
+     id="text13569"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="295.7861"
+       y="181"
+       id="tspan13575"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">a: 1</tspan><tspan
+       x="295.7861"
+       y="206"
+       id="tspan14290"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">rest: {b: 2}</tspan></text>
+  <path
+     d="m 40.5,60.5 200,0 10,0 0,40"
+     id="path13579"
+     style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;marker-end:url(#Arrow1Lend)" />
+  <path
+     d="m 250.5,60.5 200,0 10,0 0,40"
+     id="path14359"
+     style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:4, 4;stroke-dashoffset:0;marker-end:url(#Arrow1Lend)" />
+  <text
+     x="500.5"
+     y="90.5"
+     id="text14361"
+     xml:space="preserve"
+     style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"><tspan
+       x="500.5"
+       y="90.5"
+       id="tspan14363"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:center;text-anchor:middle;font-family:TeX Gyre Cursor;-inkscape-font-specification:TeX Gyre Cursor">...</tspan></text>
+</svg>
