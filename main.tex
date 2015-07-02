@@ -207,24 +207,30 @@
 \section{Introduction}
 \begin{frame}{Introduction}
 	\begin{itemize}
-		\item Goal: make method calls faster.
-		\item How to: prepare arguments for method calls at call site.
-		\item Running example: keyword arguments in JRuby --> twice as fast
+		\item \textbf{Goal:} Make argument handling faster $\rightarrow$ make method calls faster
+		\item \textbf{How to:} Prepare arguments at call site.
+		\item \textbf{Running example:} Keyword arguments in JRuby $\rightarrow$ twice as fast
 	\end{itemize}
+
+	\begin{table}
+		\centering
+		\includegraphics[width=0.5\textwidth]{jruby.png} \qquad \qquad
+		\includegraphics[width=0.2\textwidth]{truffle.jpg}
+	\end{table}
 \end{frame}
 
 \section{Concept}
 \begin{frame}[fragile]{Argument Mismatch}
 \begin{table}
 	\centering
-	\textbf{method signature $\not=$ call arguments}
+	\textbf{Method Signature Parameters $\not=$ Call Arguments}
 \end{table}
 
 \begin{table}
 \begin{minipage}{0.8\textwidth}
 \begin{lstlisting}
 def method(a: 0, b: 0, c: 0)
-
+  ...
 end
 
 method(a: 1, b: 2, c: 3)
@@ -248,14 +254,14 @@ method()
 \begin{minipage}{0.49\textwidth}
 \begin{table}
 \centering
-\textbf{convert after invoke:} \newline \newline
+\textbf{Convert after invoke:} \newline \newline
 \includegraphics[width=0.8\textwidth]{pic_regular.pdf}
 \end{table}
 \end{minipage} % comment
 \begin{minipage}{0.49\textwidth}
 \begin{table}
 \centering
-\textbf{convert before invoke:} \newline \newline
+\textbf{Convert before invoke:} \newline \newline
 \includegraphics[width=0.8\textwidth]{pic_calltarget.pdf}
 \end{table}
 \end{minipage}
@@ -265,7 +271,7 @@ method()
 \begin{minipage}{0.49\textwidth}
 \begin{table}
 \centering
-\textbf{convert after invoke:} \newline \newline
+\textbf{Convert after invoke:} \newline \newline
 \includegraphics[width=0.8\textwidth]{pic_regular.pdf}
 \end{table}
 \begin{enumerate}
@@ -278,13 +284,13 @@ method()
 \begin{minipage}{0.49\textwidth}
 \begin{table}
 \centering
-\textbf{convert before invoke:} \newline \newline
+\textbf{Convert before invoke:} \newline \newline
 \includegraphics[width=0.8\textwidth]{pic_calltarget.pdf}
 \end{table}
 \begin{enumerate}
 	\item Lookup receiver
 	\item Convert args to specific repres.
-	\item Invoke target method
+	\item Invoke target method \newline
 \end{enumerate}
 \end{minipage}
 \end{frame}
@@ -298,6 +304,7 @@ method()
 \begin{minipage}{0.7\textwidth}
 \begin{lstlisting}
 def A.method(b: 10, c: 20, a: 30)
+  ...
 end
 
 obj.method(a: 1, b: 2)
@@ -313,6 +320,7 @@ obj.method(a: 1, b: 2)
 \begin{minipage}{0.65\textwidth}
 \begin{lstlisting}
 def A.method(b: 10, c: 20, a: 30)
+  ...
 end
 
 obj.method(a: 1, b: 2)
@@ -329,9 +337,11 @@ obj.method(a: 1, b: 2)
 \begin{minipage}{0.4\textwidth}
 \begin{lstlisting}
 def A.method(b: 10, c: 20, a: 30)
+  ...
 end
 
 def B.method(a:, **rest)
+  ...
 end
 
 obj.method(a: 1, b: 2)
@@ -340,11 +350,11 @@ obj.method(a: 1, b: 2)
 \end{frame}
 
 \begin{frame}[fragile]{Convert Before Invocation: Call-target-specific Arguments}
-\begin{minipage}{0.55\textwidth}
+\begin{minipage}{0.7\textwidth}
 \centering
 \includegraphics[height=0.6\textheight]{convert_before3.pdf}
 \end{minipage} % comment
-\begin{minipage}{0.4\textwidth}
+\begin{minipage}{0.25\textwidth}
 
 \end{minipage}
 \end{frame}
@@ -358,6 +368,41 @@ obj.method(a: 1, b: 2)
 \end{frame}
 
 \section{Implementation Details}
+\begin{frame}{PIC Argument Cache}
+\begin{itemize}
+	\item Truffle: AST Interpreter Framework.
+	\item PIC is implemented as linked list of AST nodes.
+	\item We cache one AST subtree generating the array of arguments per PIC entry. No bytecode manipulations neccessary.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Execution Order of Argument Nodes}
+\begin{minipage}{0.45\textwidth}
+\begin{lstlisting}
+def meth(a: 0, b: 0)
+  ...
+end
+\end{lstlisting}
+\end{minipage} % comment
+\begin{minipage}{0.5\textwidth}
+\begin{lstlisting}
+meth(b: foo(), a: bar())
+\end{lstlisting}
+\end{minipage}
+
+\begin{table}
+\centering
+\includegraphics[width=0.8\textwidth]{ast_nodes.pdf}
+\end{table}
+\end{frame}
+
+\begin{frame}{Megamorphic Call Sites}
+\begin{itemize}
+	\item Call site switches to \emph{megamorphic} once the PIC treshold is reached.
+	\item Megamorphic call sites use call-site-specific method argument \\ (old behavior).
+	\item Call target is able to detect whether call is \emph{optimized} (call-target-specific args) or \emph{unoptimized} (call-site-specific args).
+\end{itemize}
+\end{frame}
 
 \section{Benchmarks}
 \begin{frame}{Micro-Benchmarks}
@@ -365,6 +410,42 @@ obj.method(a: 1, b: 2)
 	\includegraphics[width=\textwidth]{benchmark.pdf}
 \end{frame}
 
-\section{Related Work}
+\section{Summary}
+\begin{frame}{Summary}
+\begin{itemize}
+	\item Call-site-specific method arguments: an \textbf{optimization for method argument handling} in dynamically-typed languages.
+	\item Call sites can have multiple polymorphic call targets.
+	\item \textbf{Prepare arguments} for call target at call site.
+	\item Only efficient if \textbf{call target analysis is cached} at the call site \\ (as part of the PIC).
+\end{itemize}
+\end{frame}
 
+\section{Related Work}
+\begin{frame}[fragile]{MagLev}
+\begin{minipage}{0.15\textwidth}
+\centering
+\includegraphics[width=0.9\textwidth]{maglev-logo.png}
+\end{minipage} %comment
+\begin{minipage}{0.8\textwidth}
+\begin{itemize}
+	\item MagLev: a Ruby implementation in Smalltalk (GemStone/S).
+	\item Compiled to byte code for a Smalltalk virtual machine
+	\item Generates a number of wrapper (\emph{bridge}) methods for different method arguments.
+\end{itemize}
+\end{minipage}
+
+\begin{lstlisting}
+def method(a, b = 1, *args)
+...
+end
+
+def method#1(a)
+	# call method(a, 1)
+end
+
+def method#3(a, b, c, d, e)
+	# call method(a, b, [c, d, e])
+end
+\end{lstlisting}
+\end{frame}
 \end{document}
